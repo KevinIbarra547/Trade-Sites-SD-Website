@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Trade Sites SD"
+description = "A professional portfolio and service website for Kevin Ibarra's San Diego web design side hustle, helping local trade workers get one-page hire-me websites that turn visitors into calls and texts."
+version = "1.0.0"
+id = "artifacts/trade-sites-sd"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24325
+
+[services.development]
+run = "pnpm --filter @workspace/trade-sites-sd run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/trade-sites-sd", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/trade-sites-sd/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24325"
+BASE_PATH = "/"

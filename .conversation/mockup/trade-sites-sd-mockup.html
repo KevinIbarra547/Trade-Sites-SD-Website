@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Sites SD — Design Mockup</title>
+<style>
+  :root{
+    --navy:#0f2b4c; --navy2:#16406e; --ink:#12233a; --mut:#5a6b80;
+    --bg:#ffffff; --soft:#f4f7fb; --line:#dce5f0; --accent:#ff7a2f; --accent-d:#e5661d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  h1,h2,h3{font-weight:800;letter-spacing:-.02em;line-height:1.15;color:var(--navy)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  section{padding:78px 0}
+
+  /* ===== A/B version switching ===== */
+  body.verA .only-b{display:none!important}
+  body.verB .only-a{display:none!important}
+
+  /* ===== nav ===== */
+  nav{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:50}
+  .navrow{display:flex;align-items:center;gap:18px;height:62px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--navy);text-decoration:none;font-size:16px;white-space:nowrap}
+  .brand .sq{width:26px;height:26px;border-radius:6px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px}
+  .links{display:flex;gap:20px;margin-left:auto}
+  .links a{color:var(--mut);text-decoration:none;font-size:14.5px;font-weight:600}
+  .links a:hover{color:var(--navy)}
+  .lang{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:13px;color:var(--navy);cursor:pointer}
+  .lang:hover{border-color:var(--navy)}
+  .cta{background:var(--accent);color:#fff;text-decoration:none;font-weight:800;font-size:14.5px;padding:10px 18px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 10px rgba(255,122,47,.35);transition:transform .15s, box-shadow .15s}
+  .cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,122,47,.45)}
+  .cta.pulse{animation:pulse 1.2s ease 2}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,122,47,.55)}70%{box-shadow:0 0 0 14px rgba(255,122,47,0)}100%{box-shadow:0 0 0 0 rgba(255,122,47,0)}}
+  @media(max-width:840px){.links{display:none}}
+
+  /* ===== hero ===== */
+  .hero{background:linear-gradient(180deg,#fff 0%,var(--soft) 100%);padding:84px 0 70px}
+  .heroGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+  @media(max-width:840px){.heroGrid{grid-template-columns:1fr}}
+  .eyebrow{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.12em;color:var(--accent-d);text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-size:clamp(30px,4.6vw,50px);margin-bottom:16px}
+  .hero p.sub{font-size:17.5px;color:var(--mut);max-width:520px;margin-bottom:26px}
+  .heroBtns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn2{border:2px solid var(--navy);color:var(--navy);text-decoration:none;font-weight:800;font-size:14.5px;padding:10px 18px;border-radius:10px;transition:background .15s,color .15s}
+  .btn2:hover{background:var(--navy);color:#fff}
+
+  /* phone mockup */
+  .phoneWrap{display:flex;justify-content:center}
+  .phone{width:250px;height:508px;border-radius:36px;background:#0b1526;padding:12px;box-shadow:0 24px 60px rgba(15,43,76,.28);animation:floaty 5s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-12px) rotate(-1.2deg)}}
+  .screen{background:#fff;border-radius:26px;height:100%;overflow:hidden;display:flex;flex-direction:column;font-size:10px}
+  .mHead{background:var(--navy);color:#fff;padding:14px 12px 10px}
+  .mHead .mName{font-weight:800;font-size:13px}
+  .mHead .mTrade{opacity:.75;font-size:9.5px}
+  .mStars{color:#ffc24b;font-size:9px;letter-spacing:1px}
+  .mGal{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:8px}
+  .mGal div{height:56px;border-radius:6px}
+  .g1{background:linear-gradient(135deg,#c9a17a,#8a6a48)}
+  .g2{background:linear-gradient(135deg,#9fb6cf,#5f7d9d)}
+  .g3{background:linear-gradient(135deg,#b9c7b4,#7d9376)}
+  .g4{background:linear-gradient(135deg,#d3b8a0,#9c7e63)}
+  .mList{padding:2px 12px;color:#33455e;font-size:9.5px;line-height:1.9}
+  .mList b{color:var(--navy);font-size:10px}
+  .mBadge{margin:4px 12px;padding:5px 8px;border:1px solid #cfe3d6;background:#effaf3;color:#177a4c;border-radius:6px;font-weight:700;font-size:9px;text-align:center}
+  .mBtns{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px}
+  .mBtns div{border-radius:8px;text-align:center;padding:9px 0;font-weight:800;font-size:10.5px}
+  .mCall{background:var(--accent);color:#fff}
+  .mText{background:var(--navy);color:#fff}
+
+  /* ===== stats ===== */
+  .stats{background:var(--navy);color:#fff}
+  .stats h2{color:#fff;text-align:center;font-size:clamp(22px,3vw,30px);margin-bottom:8px}
+  .stats .note{color:#9fb4cd;text-align:center;font-size:13px;margin-bottom:40px}
+  .statGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;text-align:center}
+  @media(max-width:700px){.statGrid{grid-template-columns:1fr}}
+  .num{font-size:56px;font-weight:800;color:#ffb07a;line-height:1}
+  .statGrid p{color:#c9d7e8;font-size:14.5px;margin-top:8px;max-width:250px;margin-left:auto;margin-right:auto}
+
+  /* ===== work ===== */
+  .workGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+  @media(max-width:840px){.workGrid{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,43,76,.12)}
+  .thumb{height:190px;position:relative;background:var(--soft)}
+  .shimmerbox{position:absolute;inset:14px;border-radius:10px;background:#e8eef6;overflow:hidden}
+  .shimmerbox::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.85) 50%,transparent 70%);animation:shimmer 1.6s infinite}
+  @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .bars{position:absolute;left:28px;top:30px;right:28px}
+  .bars div{height:10px;border-radius:5px;background:#cdd9e8;margin-bottom:9px}
+  .bars div:nth-child(1){width:55%}.bars div:nth-child(2){width:85%}.bars div:nth-child(3){width:70%}
+  .tag{position:absolute;top:22px;right:22px;background:var(--accent);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;z-index:2}
+  .cbody{padding:16px 18px 20px}
+  .cbody h3{font-size:16.5px;margin-bottom:4px}
+  .cbody p{font-size:13.5px;color:var(--mut)}
+  .card.empty{border-style:dashed;background:var(--soft);display:flex;align-items:center;justify-content:center;min-height:295px;text-align:center;padding:26px}
+  .card.empty .inner p{font-weight:700;color:var(--navy);font-size:15.5px;margin-bottom:6px}
+  .card.empty .inner span{font-size:13px;color:var(--mut)}
+
+  /* ===== features ===== */
+  .soft{background:var(--soft)}
+  .featGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+  @media(max-width:840px){.featGrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.featGrid{grid-template-columns:1fr}}
+  .feat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+  .feat .ico{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:17px;margin-bottom:12px}
+  .feat h3{font-size:15.5px;margin-bottom:5px}
+  .feat p{font-size:13.5px;color:var(--mut)}
+
+  /* ===== steps ===== */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
+  @media(max-width:840px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.steps{grid-template-columns:1fr}}
+  .step{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}
+  .step .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px;margin-bottom:12px}
+  .step h3{font-size:15.5px;margin-bottom:5px}
+  .step p{font-size:13.5px;color:var(--mut)}
+  .step.hl{border:2px solid var(--accent);background:#fff8f3}
+  .finePrint{margin-top:22px;font-size:13.5px;color:var(--mut);text-align:center}
+
+  /* ===== pricing ===== */
+  .priceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:38px}
+  @media(max-width:840px){.priceGrid{grid-template-columns:1fr}}
+  .price{border:1px solid var(--line);border-radius:16px;padding:26px;background:#fff;position:relative}
+  .price.me{border:2px solid var(--navy);box-shadow:0 14px 34px rgba(15,43,76,.12)}
+  .price .who{font-weight:800;font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+  .price .amt{font-size:38px;font-weight:800;color:var(--navy);margin:8px 0 2px}
+  .price .per{font-size:13px;color:var(--mut);margin-bottom:14px}
+  .price ul{list-style:none;font-size:13.8px;color:var(--ink)}
+  .price li{padding:6px 0;border-top:1px dashed var(--line)}
+  .price li:first-child{border-top:0}
+  .ribbon{position:absolute;top:-13px;left:22px;background:var(--accent);color:#fff;font-size:11.5px;font-weight:800;padding:4px 12px;border-radius:999px}
+  .introNote{margin-top:24px;text-align:center;font-size:14px;color:var(--mut)}
+  .introNote b{color:var(--navy)}
+
+  /* ===== about ===== */
+  .aboutBox{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  @media(max-width:840px){.aboutBox{grid-template-columns:1fr}}
+  .aboutBox p{color:var(--mut);font-size:15.5px;margin-top:14px}
+  .polaroid{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 34px rgba(15,43,76,.10);transform:rotate(2deg)}
+  .polaroid .ph{height:250px;border-radius:8px;background:linear-gradient(135deg,var(--navy2),var(--navy));display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;text-align:center;padding:20px}
+  .polaroid .cap{text-align:center;font-size:13px;color:var(--mut);padding-top:10px}
+
+  /* ===== contact ===== */
+  .contact{background:var(--navy);color:#fff}
+  .contact h2{color:#fff}
+  .contact .sub2{color:#b9cade;margin-top:10px;font-size:15.5px}
+  .conGrid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px}
+  @media(max-width:840px){.conGrid{grid-template-columns:1fr}}
+  .bigBtns{display:flex;flex-direction:column;gap:14px}
+  .bigBtn{display:block;text-align:center;padding:16px;border-radius:12px;font-weight:800;font-size:16px;text-decoration:none}
+  .bb1{background:var(--accent);color:#fff}
+  .bb2{background:#fff;color:var(--navy)}
+  .bb3{border:2px solid #3d5c82;color:#cfe0f2}
+  .trust{margin-top:16px;font-size:13.5px;color:#9fb4cd;text-align:center}
+  form{background:#fff;border-radius:14px;padding:22px;color:var(--ink)}
+  form label{font-size:12.5px;font-weight:700;color:var(--navy);display:block;margin:10px 0 4px}
+  form input,form textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:14px;font-family:inherit}
+  form button{margin-top:14px;width:100%;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:13px;font-weight:800;font-size:15px;cursor:pointer}
+  form .mini{font-size:11.5px;color:var(--mut);margin-top:8px;text-align:center}
+
+  footer{background:#0b1f38;color:#8ba3bf;text-align:center;padding:30px 20px;font-size:13.5px}
+  footer b{color:#fff}
+
+  /* ===== reveal on scroll ===== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===== mockup control pill ===== */
+  .mock{position:fixed;bottom:16px;left:16px;z-index:99;background:#111c2c;color:#fff;border-radius:14px;padding:12px 14px;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:250px}
+  .mock .t{font-weight:800;letter-spacing:.08em;font-size:10px;color:#ffb07a;text-transform:uppercase;margin-bottom:8px}
+  .mock button{background:#22344e;border:0;color:#cfe0f2;border-radius:8px;padding:7px 10px;font-size:11.5px;font-weight:700;cursor:pointer;margin-right:6px}
+  .mock button.on{background:var(--accent);color:#fff}
+  .secHead{max-width:640px}
+  .secHead .kick{font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-d)}
+  .secHead h2{font-size:clamp(24px,3.4vw,34px);margin-top:8px}
+  .secHead p{color:var(--mut);margin-top:10px;font-size:15.5px}
+</style>
+</head>
+<body class="verA">
+
+<!-- mockup-only control -->
+<div class="mock">
+  <div class="t">Mockup controls</div>
+  <button id="btnA" class="on" onclick="setVer('A')">A · Story-led</button>
+  <button id="btnB" onclick="setVer('B')">B · Professional</button>
+</div>
+
+<nav>
+  <div class="wrap navrow">
+    <a class="brand" href="#top"><span class="sq">⌂</span> TRADE SITES SD</a>
+    <div class="links">
+      <a href="#work" data-i18n="nav_work">Work</a>
+      <a href="#features" data-i18n="nav_feat">What You Get</a>
+      <a href="#how" data-i18n="nav_how">How It Works</a>
+      <a href="#pricing" data-i18n="nav_price">Pricing</a>
+      <a href="#about" data-i18n="nav_about">About</a>
+    </div>
+    <button class="lang" id="langBtn" onclick="toggleLang()">ES</button>
+    <a class="cta" id="navCta" href="sms:+16195550123" data-i18n="nav_cta">📱 Text Me</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap heroGrid">
+    <div>
+      <span class="eyebrow" data-i18n="hero_eyebrow">San Diego · One-Page Hire-Me Websites</span>
+      <h1 class="only-a" data-i18n="heroA_h1">I built my dad's hire-me site. Yours is next.</h1>
+      <h1 class="only-b" data-i18n="heroB_h1">A website that sends customers straight to your phone.</h1>
+      <p class="sub only-a" data-i18n="heroA_sub">I'm Kevin — Noe's son. I make one-page websites for San Diego trade workers: your best work photos, your services, and one button that sends customers straight to your phone. $150, done in about 2 weeks.</p>
+      <p class="sub only-b" data-i18n="heroB_sub">One-page sites for San Diego trade workers. Your photos, your services, your reviews — and the call button front and center. $150, done in about 2 weeks.</p>
+      <div class="heroBtns">
+        <a class="cta" href="sms:+16195550123" data-i18n="hero_cta1">📱 Text me: (619) 555-0123</a>
+        <a class="btn2" href="#work" data-i18n="hero_cta2">See the work</a>
+      </div>
+    </div>
+    <div class="phoneWrap">
+      <div class="phone"><div class="screen">
+        <div class="mHead">
+          <div class="mName">NOE IBARRA</div>
+          <div class="mTrade" data-i18n="ph_trade">Construction · San Diego</div>
+          <div class="mStars">★★★★★</div>
+        </div>
+        <div class="mGal"><div class="g1"></div><div class="g2"></div><div class="g3"></div><div class="g4"></div></div>
+        <div class="mList"><b data-i18n="ph_services">Services</b><br><span data-i18n="ph_list">Framing · Drywall · Concrete · Remodels</span></div>
+        <div class="mBadge" data-i18n="ph_lic">✓ Licensed & Insured</div>
+        <div class="mBtns"><div class="mCall" data-i18n="ph_call">📞 Call</div><div class="mText" data-i18n="ph_text">💬 Text</div></div>
+      </div></div>
+    </div>
+  </div>
+</header>
+
+<section class="stats" id="stats">
+  <div class="wrap">
+    <h2 class="reveal" data-i18n="stats_h2">Why my sites put your phone number first</h2>
+    <p class="note reveal" data-i18n="stats_note">Home-services industry data — this is the homework behind every site I build.</p>
+    <div class="statGrid">
+      <div class="reveal"><div class="num"><span class="count" data-target="78">0</span>%</div><p data-i18n="stat1">of home-service leads come from phone calls — not forms, not chat</p></div>
+      <div class="reveal"><div class="num"><span class="count" data-target="3">0</span>×</div><p data-i18n="stat2">better conversion from tap-to-call buttons vs. contact forms</p></div>
+      <div class="reveal"><div class="num">+<span class="count" data-target="40">0</span>%</div><p data-i18n="stat3">more calls when your number is visible without scrolling</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="secHead reveal">
+      <span class="kick" data-i18n="work_kick">The Work</span>
+      <h2 data-i18n="work_h2">First build underway</h2>
+      <p data-i18n="work_p">Every site here is real and live — starting with build #001.</p>
+    </div>
+    <div class="workGrid">
+      <div class="card reveal">
+        <div class="thumb"><span class="tag" data-i18n="work_tag">IN PROGRESS</span><div class="shimmerbox"><div class="bars"><div></div><div></div><div></div></div></div></div>
+        <div class="cbody"><h3>Noe Ibarra — <span data-i18n="work_c1trade">Construction</span></h3><p data-i18n="work_c1p">Build #001 · Live in about a week. 20 years of reputation, first time on the internet.</p></div>
+      </div>
+      <div class="card empty reveal"><div class="inner"><p data-i18n="work_e1">This spot is for your site.</p><span data-i18n="work_e1s">First clients get the $150 intro price while I build my portfolio.</span></div></div>
+      <div class="card empty reveal"><div class="inner"><p data-i18n="work_e2">This one too.</p><span data-i18n="work_e2s">Text me your trade and I'll show you what your site could look like.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="features">
+  <div class="wrap">
+    <div class="secHead reveal">
+      <span class="kick" data-i18n="feat_kick">What You Get</span>
+      <h2 data-i18n="feat_h2">What $150 gets you</h2>
+    </div>
+    <div class="featGrid">
+      <div class="feat reveal"><div class="ico">📞</div><h3 data-i18n="f1">Call & text buttons</h3><p data-i18n="f1p">Customers reach you in one tap — no forms in the way.</p></div>
+      <div class="feat reveal"><div class="ico">📷</div><h3 data-i18n="f2">Photo gallery</h3><p data-i18n="f2p">Your best jobs front and center. Your work does the selling.</p></div>
+      <div class="feat reveal"><div class="ico">🔧</div><h3 data-i18n="f3">Services list</h3><p data-i18n="f3p">So the right customers call about the right jobs.</p></div>
+      <div class="feat reveal"><div class="ico">⭐</div><h3 data-i18n="f4">Reviews</h3><p data-i18n="f4p">What past clients say about you, in their own words.</p></div>
+      <div class="feat reveal"><div class="ico">✓</div><h3 data-i18n="f5">License & insurance shown</h3><p data-i18n="f5p">Trust built before the first call happens.</p></div>
+      <div class="feat reveal"><div class="ico">⚡</div><h3 data-i18n="f6">Fast on any phone</h3><p data-i18n="f6p">Loads in seconds, even on job-site data.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="secHead reveal">
+      <span class="kick" data-i18n="how_kick">How It Works</span>
+      <h2 data-i18n="how_h2">Four steps. No deposit.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n">1</div><h3 data-i18n="s1">Text me</h3><p data-i18n="s1p">Tell me your trade and what you need.</p></div>
+      <div class="step reveal"><div class="n">2</div><h3 data-i18n="s2">Send your stuff</h3><p data-i18n="s2p">Photos, services, phone number, reviews.</p></div>
+      <div class="step reveal"><div class="n">3</div><h3 data-i18n="s3">I build it</h3><p data-i18n="s3p">About 2 weeks, with 2 rounds of changes included.</p></div>
+      <div class="step hl reveal"><div class="n">4</div><h3 data-i18n="s4">Approve it, then pay</h3><p data-i18n="s4p">You only pay when you're happy with your site.</p></div>
+    </div>
+    <p class="finePrint reveal" data-i18n="how_fine">Plus 30 days of free bug fixes after launch. Your domain (~$12/yr) is yours — you own your web address, always.</p>
+  </div>
+</section>
+
+<section class="soft" id="pricing">
+  <div class="wrap">
+    <div class="secHead reveal">
+      <span class="kick" data-i18n="price_kick">Pricing</span>
+      <h2 data-i18n="price_h2">Simple math</h2>
+    </div>
+    <div class="priceGrid">
+      <div class="price me reveal">
+        <span class="ribbon" data-i18n="price_rib">What I charge</span>
+        <div class="who">Trade Sites SD</div>
+        <div class="amt">$150</div>
+        <div class="per" data-i18n="p1per">once — that's it</div>
+        <ul>
+          <li data-i18n="p1a">One-page hire-me site, built for you</li>
+          <li data-i18n="p1b">2 rounds of changes before launch</li>
+          <li data-i18n="p1c">30 days of free bug fixes</li>
+          <li data-i18n="p1d">You own everything</li>
+        </ul>
+      </div>
+      <div class="price reveal">
+        <div class="who" data-i18n="p2who">DIY builders (Wix, Squarespace)</div>
+        <div class="amt">$200+</div>
+        <div class="per" data-i18n="p2per">every single year</div>
+        <ul>
+          <li data-i18n="p2a">You build it yourself</li>
+          <li data-i18n="p2b">Monthly fees never stop</li>
+          <li data-i18n="p2c">Your time, after work hours</li>
+        </ul>
+      </div>
+      <div class="price reveal">
+        <div class="who" data-i18n="p3who">Web agencies</div>
+        <div class="amt">$2,000+</div>
+        <div class="per" data-i18n="p3per">for the same one-page job</div>
+        <ul>
+          <li data-i18n="p3a">Built for big companies' budgets</li>
+          <li data-i18n="p3b">Often $5,000+ for contractors</li>
+          <li data-i18n="p3c">Weeks of meetings</li>
+        </ul>
+      </div>
+    </div>
+    <p class="introNote reveal" data-i18n="price_note"><b>Honest note:</b> $150 is my starting price while I build my portfolio. It goes up when the reviews come in. Only other cost: your domain, about $12/year — and it's yours.</p>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap aboutBox">
+    <div class="reveal">
+      <span class="kick" style="font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-d)" data-i18n="about_kick">About</span>
+      <h2 class="only-a" style="margin-top:8px" data-i18n="aboutA_h2">Built in San Diego. Son of the trades.</h2>
+      <h2 class="only-b" style="margin-top:8px" data-i18n="aboutB_h2">About Trade Sites SD</h2>
+      <p class="only-a" data-i18n="aboutA_p">My dad Noe is a free-agent construction worker. Great reputation, zero web presence — every new customer came from word of mouth. So I built him a one-page site where his work does the talking and his phone does the ringing. That's the exact site I now build for other trade workers. I'm Kevin Ibarra. My prices are honest, and I answer my texts.</p>
+      <p class="only-b" data-i18n="aboutB_p">I'm Kevin Ibarra. I build one-page hire-me websites for San Diego trade workers — honest pricing, no monthly fees, no middleman between you and your customers. My first build was for a construction worker with 20 years of reputation and zero web presence. (He's also my dad.)</p>
+    </div>
+    <div class="polaroid reveal">
+      <div class="ph" data-i18n="about_photo">[ Photo: Kevin + Noe on the job site ]</div>
+      <div class="cap" data-i18n="about_cap">Build #001 client. Also, my dad.</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="secHead reveal">
+      <span class="kick" style="color:#ffb07a" data-i18n="con_kick">Get Your Site</span>
+      <h2 data-i18n="con_h2">Ready when you are</h2>
+      <p class="sub2" data-i18n="con_p">Texting is fastest — tell me your trade and I'll reply the same day.</p>
+    </div>
+    <div class="conGrid">
+      <div class="bigBtns reveal">
+        <a class="bigBtn bb1" href="sms:+16195550123" data-i18n="con_b1">💬 Text (619) 555-0123</a>
+        <a class="bigBtn bb2" href="tel:+16195550123" data-i18n="con_b2">📞 Call (619) 555-0123</a>
+        <a class="bigBtn bb3" href="mailto:hello@tradesitessd.com">✉️ hello@tradesitessd.com</a>
+        <p class="trust" data-i18n="con_trust">No deposit. You pay when you approve your site.</p>
+      </div>
+      <form class="reveal" onsubmit="return false">
+        <label data-i18n="fm_name">Your name</label><input placeholder="Miguel Torres">
+        <label data-i18n="fm_trade">Your trade</label><input data-i18n-ph="fm_trade_ph" placeholder="Plumber, electrician, painter…">
+        <label data-i18n="fm_phone">Phone</label><input placeholder="(619) …">
+        <label data-i18n="fm_msg">Anything else?</label><textarea rows="3"></textarea>
+        <button data-i18n="fm_send">Send</button>
+        <p class="mini" data-i18n="fm_mini">On the real site this form runs on Web3Forms (free).</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>TRADE SITES SD</b> — <span data-i18n="foot1">one-page hire-me websites, San Diego.</span><br>
+  <span data-i18n="foot2">By the way: this page is what $150 looks like.</span><br><br>
+  <span style="font-size:11.5px;opacity:.6" data-i18n="foot3">Design mockup — contact info is placeholder.</span>
+</footer>
+
+<script>
+/* ---------- A/B version toggle (mockup only) ---------- */
+function setVer(v){
+  document.body.className = 'ver'+v;
+  document.getElementById('btnA').classList.toggle('on', v==='A');
+  document.getElementById('btnB').classList.toggle('on', v==='B');
+}
+
+/* ---------- EN/ES toggle (real feature) ---------- */
+const T = {
+en:{},
+es:{
+  nav_work:"Trabajos", nav_feat:"Qué Incluye", nav_how:"Cómo Funciona", nav_price:"Precio", nav_about:"Sobre Mí", nav_cta:"📱 Escríbeme",
+  hero_eyebrow:"San Diego · Páginas de una hoja para conseguir clientes",
+  heroA_h1:"Hice la página de mi papá. La tuya sigue.",
+  heroB_h1:"Una página que manda clientes directo a tu teléfono.",
+  heroA_sub:"Soy Kevin, el hijo de Noe. Hago páginas web de una hoja para trabajadores de oficios en San Diego: tus mejores fotos, tus servicios y un botón que manda a los clientes directo a tu teléfono. $150, lista en unas 2 semanas.",
+  heroB_sub:"Páginas de una hoja para trabajadores de oficios en San Diego. Tus fotos, tus servicios, tus reseñas — y el botón de llamar al frente. $150, lista en unas 2 semanas.",
+  hero_cta1:"📱 Escríbeme: (619) 555-0123", hero_cta2:"Ver los trabajos",
+  ph_trade:"Construcción · San Diego", ph_services:"Servicios", ph_list:"Estructura · Drywall · Concreto · Remodelación", ph_lic:"✓ Con Licencia y Seguro", ph_call:"📞 Llamar", ph_text:"💬 Texto",
+  stats_h2:"Por qué pongo tu número de teléfono primero",
+  stats_note:"Datos de la industria de servicios — esta es la tarea detrás de cada página que hago.",
+  stat1:"de los clientes de servicios llegan por llamada — no por formularios",
+  stat2:"convierte mejor el botón de llamar que los formularios de contacto",
+  stat3:"más llamadas cuando tu número se ve sin tener que bajar",
+  work_kick:"Los Trabajos", work_h2:"Primera página en construcción", work_p:"Cada página aquí es real y está en línea — empezando con la #001.",
+  work_tag:"EN PROCESO", work_c1trade:"Construcción", work_c1p:"Página #001 · Lista en una semana. 20 años de reputación, primera vez en internet.",
+  work_e1:"Este lugar es para tu página.", work_e1s:"Los primeros clientes pagan el precio de arranque de $150 mientras armo mi portafolio.",
+  work_e2:"Este también.", work_e2s:"Mándame un texto con tu oficio y te enseño cómo se vería tu página.",
+  feat_kick:"Qué Incluye", feat_h2:"Qué te dan los $150",
+  f1:"Botones de llamar y texto", f1p:"Los clientes te contactan con un toque — sin formularios de por medio.",
+  f2:"Galería de fotos", f2p:"Tus mejores trabajos al frente. Tu trabajo es el que vende.",
+  f3:"Lista de servicios", f3p:"Para que el cliente correcto llame por el trabajo correcto.",
+  f4:"Reseñas", f4p:"Lo que dicen tus clientes anteriores, en sus propias palabras.",
+  f5:"Licencia y seguro a la vista", f5p:"La confianza se gana antes de la primera llamada.",
+  f6:"Rápida en cualquier teléfono", f6p:"Carga en segundos, hasta con los datos de la obra.",
+  how_kick:"Cómo Funciona", how_h2:"Cuatro pasos. Sin depósito.",
+  s1:"Escríbeme", s1p:"Dime tu oficio y qué necesitas.",
+  s2:"Mándame tus cosas", s2p:"Fotos, servicios, teléfono, reseñas.",
+  s3:"Yo la construyo", s3p:"Unas 2 semanas, con 2 rondas de cambios incluidas.",
+  s4:"La apruebas y luego pagas", s4p:"Solo pagas cuando estés contento con tu página.",
+  how_fine:"Además: 30 días de arreglos gratis después del estreno. Tu dominio (~$12 al año) es tuyo — tu dirección web siempre te pertenece.",
+  price_kick:"Precio", price_h2:"Cuentas claras", price_rib:"Lo que yo cobro",
+  p1per:"una vez — y ya",
+  p1a:"Página de una hoja, hecha para ti", p1b:"2 rondas de cambios antes del estreno", p1c:"30 días de arreglos gratis", p1d:"Todo es tuyo",
+  p2who:"Constructores DIY (Wix, Squarespace)", p2per:"cada año, todos los años",
+  p2a:"La construyes tú mismo", p2b:"Las cuotas mensuales nunca paran", p2c:"Tu tiempo, después del trabajo",
+  p3who:"Agencias web", p3per:"por el mismo trabajo de una hoja",
+  p3a:"Hechas para presupuestos de empresas grandes", p3b:"Seguido cobran $5,000+ a contratistas", p3c:"Semanas de juntas",
+  price_note:"Nota honesta: $150 es mi precio de arranque mientras armo mi portafolio. Sube cuando lleguen las reseñas. El único otro costo: tu dominio, como $12 al año — y es tuyo.",
+  about_kick:"Sobre Mí",
+  aboutA_h2:"Hecho en San Diego. Hijo de los oficios.",
+  aboutB_h2:"Sobre Trade Sites SD",
+  aboutA_p:"Mi papá Noe es trabajador de construcción independiente. Buena reputación, cero presencia en internet — cada cliente nuevo llegaba de boca en boca. Así que le hice una página de una hoja donde su trabajo habla y su teléfono suena. Esa es exactamente la página que ahora hago para otros trabajadores de oficios. Soy Kevin Ibarra. Mis precios son honestos y contesto mis textos.",
+  aboutB_p:"Soy Kevin Ibarra. Hago páginas web de una hoja para trabajadores de oficios en San Diego — precios honestos, sin cuotas mensuales, sin intermediarios entre tú y tus clientes. Mi primera página fue para un trabajador de construcción con 20 años de reputación y cero presencia en internet. (También es mi papá.)",
+  about_photo:"[ Foto: Kevin y Noe en la obra ]", about_cap:"Cliente de la página #001. También, mi papá.",
+  con_kick:"Pide Tu Página", con_h2:"Listo cuando tú digas", con_p:"Por texto es más rápido — dime tu oficio y te contesto el mismo día.",
+  con_b1:"💬 Texto: (619) 555-0123", con_b2:"📞 Llamar: (619) 555-0123",
+  con_trust:"Sin depósito. Pagas cuando apruebas tu página.",
+  fm_name:"Tu nombre", fm_trade:"Tu oficio", fm_trade_ph:"Plomero, electricista, pintor…", fm_phone:"Teléfono", fm_msg:"¿Algo más?", fm_send:"Enviar",
+  fm_mini:"En la página real este formulario usa Web3Forms (gratis).",
+  foot1:"páginas de una hoja para conseguir clientes, San Diego.",
+  foot2:"Por cierto: esta página es lo que cuestan $150.",
+  foot3:"Maqueta de diseño — la información de contacto es de ejemplo."
+}};
+let lang = 'en';
+// stash English originals
+document.querySelectorAll('[data-i18n]').forEach(el=>{ T.en[el.dataset.i18n] = el.innerHTML; });
+document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ T.en[el.dataset.i18nPh] = el.placeholder; });
+function toggleLang(){
+  lang = lang==='en' ? 'es' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const v = T[lang][el.dataset.i18n]; if(v!==undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const v = T[lang][el.dataset.i18nPh]; if(v!==undefined) el.placeholder = v;
+  });
+  document.getElementById('langBtn').textContent = lang==='en' ? 'ES' : 'EN';
+  document.documentElement.lang = lang;
+}
+
+/* ---------- scroll reveals ---------- */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- animated counters ---------- */
+const cio = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target, target=+el.dataset.target, dur=1200, t0=performance.now();
+    (function tick(t){ const p=Math.min((t-t0)/dur,1); el.textContent=Math.round(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(tick); })(t0);
+    cio.unobserve(el);
+  });
+},{threshold:.6});
+document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+/* ---------- CTA pulse at pricing ---------- */
+const pio = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ document.getElementById('navCta').classList.add('pulse'); pio.disconnect(); } });
+},{threshold:.3});
+pio.observe(document.getElementById('pricing'));
+</script>
+</body>
+</html>

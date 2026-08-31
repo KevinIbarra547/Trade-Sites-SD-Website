@@ -1,6 +1,6 @@
-# [Project name]
+# Trade Sites SD
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Trade Sites SD is Kevin Ibarra's professional portfolio and service website for building affordable hire-me websites for San Diego trade workers.
 
 ## Run & Operate
 
@@ -22,23 +22,37 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/trade-sites-sd/src/App.tsx` — route map and page shell composition
+- `artifacts/trade-sites-sd/src/pages/site-pages.tsx` — public pages and route-level copy
+- `artifacts/trade-sites-sd/src/components/site-shell.tsx` — shared navigation, footer, language toggle, and persistent CTA
+- `artifacts/trade-sites-sd/src/components/site-blocks.tsx` — reusable branded content blocks
+- `artifacts/trade-sites-sd/src/index.css` — site-wide theme tokens, responsive layout, motion, and accessibility states
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first build is a frontend-only presentation site; contact submission is intentionally local until Web3Forms credentials are available.
+- The site uses Wouter for lightweight multi-page route handling within the Vite artifact.
+- English and Spanish copy are implemented in the shared shell/page data so language switching stays consistent across routes.
+- Portfolio copy is explicitly honest about Noe's first build being underway and does not invent client proof.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Home, Work, Services, Process, About, Contact, and 404 routes
+- Text, call, email, and local contact-form interactions
+- Responsive mobile-first layout with a sticky mobile Text Kevin CTA
+- English/Spanish language switching
+- Scroll reveals and reduced-motion support
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- The owner wants a professional multi-page site rather than a one-page-only portfolio.
+- The visual direction is clean and trustworthy: white, deep navy, and restrained orange.
+- The family story with Noe should be visible as a trust asset.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Phone numbers, email addresses, and future Web3Forms credentials are placeholders and must be replaced before launch.
+- Do not imply that the portfolio has completed client work, reviews, or testimonials until Kevin has them.
 
 ## Pointers
 
