@@ -4,35 +4,28 @@ Trade Sites SD is Kevin Ibarra's professional portfolio and service website for 
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- The finished site is a plain static folder ready to upload or host anywhere.
+- Preview is served from `artifacts/trade-sites-sd/` by the artifact workflow.
+- No package manager, build step, backend, database, or required environment variables are needed.
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Plain HTML, CSS, and vanilla JavaScript
+- Static assets live in `artifacts/trade-sites-sd/images/`
+- Hash-based navigation keeps the multi-page experience upload-friendly without a backend
 
 ## Where things live
 
-- `artifacts/trade-sites-sd/src/App.tsx` — route map and page shell composition
-- `artifacts/trade-sites-sd/src/pages/site-pages.tsx` — public pages and route-level copy
-- `artifacts/trade-sites-sd/src/components/site-shell.tsx` — shared navigation, footer, language toggle, and persistent CTA
-- `artifacts/trade-sites-sd/src/components/site-blocks.tsx` — reusable branded content blocks
-- `artifacts/trade-sites-sd/src/index.css` — site-wide theme tokens, responsive layout, motion, and accessibility states
+- `artifacts/trade-sites-sd/index.html` — all route markup and inline SVG icon symbols
+- `artifacts/trade-sites-sd/styles.css` — site-wide theme tokens, responsive layout, motion, and accessibility states
+- `artifacts/trade-sites-sd/script.js` — hash routing, language switching, mobile menu, form state, and scroll reveals
+- `artifacts/trade-sites-sd/images/favicon.svg` — local favicon
 
 ## Architecture decisions
 
 - The first build is a frontend-only presentation site; contact submission is intentionally local until Web3Forms credentials are available.
-- The site uses Wouter for lightweight multi-page route handling within the Vite artifact.
-- English and Spanish copy are implemented in the shared shell/page data so language switching stays consistent across routes.
+- The site uses hash-based navigation so the exported folder works on static hosts without server rewrites.
+- English and Spanish copy are implemented with paired data attributes so language switching stays consistent across routes.
 - Portfolio copy is explicitly honest about Noe's first build being underway and does not invent client proof.
 
 ## Product
@@ -56,4 +49,4 @@ Trade Sites SD is Kevin Ibarra's professional portfolio and service website for 
 
 ## Pointers
 
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Replace placeholder phone, email, and Web3Forms details before launch.

@@ -1,7 +1,7 @@
 kind = "web"
 previewPath = "/"
 title = "Trade Sites SD"
-description = "A professional portfolio and service website for Kevin Ibarra's San Diego web design side hustle, helping local trade workers get one-page hire-me websites that turn visitors into calls and texts."
+description = "A professional static portfolio and service website for Kevin Ibarra's San Diego web design side hustle."
 version = "1.0.0"
 id = "artifacts/trade-sites-sd"
 router = "path"
@@ -12,12 +12,11 @@ paths = [ "/" ]
 localPort = 24325
 
 [services.development]
-run = "pnpm --filter @workspace/trade-sites-sd run dev"
+run = "node -e 'const fs=require(\"fs\");const http=require(\"http\");const path=require(\"path\");const root=fs.existsSync(\"index.html\")?process.cwd():path.resolve(\"artifacts/trade-sites-sd\");const port=Number(process.env.PORT);http.createServer((req,res)=>{let p=decodeURIComponent((req.url||\"/\").split(\"?\")[0]);if(p===\"/\"||!path.extname(p))p=\"/index.html\";const file=path.join(root,p);if(!file.startsWith(root)||!fs.existsSync(file)){res.statusCode=404;res.end(\"Not found\");return}const mime={\".html\":\"text/html; charset=utf-8\",\".css\":\"text/css; charset=utf-8\",\".js\":\"text/javascript; charset=utf-8\",\".svg\":\"image/svg+xml\"}[path.extname(file)]||\"application/octet-stream\";res.setHeader(\"Content-Type\",mime);res.end(fs.readFileSync(file))}).listen(port,\"0.0.0.0\")'"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/trade-sites-sd", "run", "build" ]
 serve = "static"
-publicDir = "artifacts/trade-sites-sd/dist/public"
+publicDir = "artifacts/trade-sites-sd"
 
 [[services.production.rewrites]]
 from = "/*"
