@@ -28,6 +28,27 @@
   var contactForm = document.getElementById('contact-form');
   var formSuccess = document.getElementById('form-success');
   var sendAnother = document.getElementById('send-another');
+  var sectionIds = [
+    'home-hero',
+    'home-stats',
+    'home-point',
+    'home-honest',
+    'home-cta',
+    'work-intro',
+    'work-build',
+    'services-intro',
+    'services-list',
+    'services-note',
+    'process-intro',
+    'process-steps',
+    'process-note',
+    'about-intro',
+    'about-story',
+    'about-approach',
+    'contact-intro',
+    'contact-form-section',
+    'not-found-content'
+  ];
 
   function getRoute() {
     var raw = window.location.hash.replace(/^#/, '').replace(/^\//, '').split('?')[0];
@@ -112,6 +133,12 @@
     items.forEach(function (item) { observer.observe(item); });
   }
 
+  function assignSectionIds() {
+    document.querySelectorAll('section').forEach(function (section, index) {
+      if (!section.id) section.id = sectionIds[index] || 'section-' + (index + 1);
+    });
+  }
+
   if (menuToggle) {
     menuToggle.addEventListener('click', function () {
       if (mobileMenu.hidden) openMenu(); else closeMenu();
@@ -143,6 +170,7 @@
     });
   }
 
+  assignSectionIds();
   setLanguage('en');
   refreshRoute();
 }());
