@@ -1,0 +1,56 @@
+# Replit Prompt — Static Rebuild (v2)
+
+Paste everything below the line. Do it in two messages — send PHASE 1, wait for
+it to finish, check the files, then send PHASE 2.
+
+---
+
+## PHASE 1 — send this first
+
+Do NOT refactor or modify any existing files yet. Instead, create three brand
+new files from scratch at the project root:
+
+- `index.html`
+- `styles.css`
+- `script.js`
+
+These three files must reproduce the current website's design exactly: same
+layout, same sections in the same order, same colors, same fonts, same spacing,
+same text content. Read the existing React components to get the design, then
+write the equivalent as plain HTML and CSS.
+
+Rules for the new files:
+- Plain HTML, CSS, and vanilla JavaScript only. No React, no JSX, no
+  TypeScript, no imports, no bundler, no build step.
+- `index.html` must work by simply opening it in a browser.
+- All colors, fonts, and spacing defined as CSS custom properties at the top of
+  `styles.css`. No hardcoded colors elsewhere.
+- Mobile-first CSS: base styles for phones, `min-width` media queries above.
+- Semantic HTML: `header`, `nav`, `main`, `section`, `footer`, each section with an `id`.
+- All phone numbers as `tel:` links.
+- Alt text on images, aria-labels on icon-only buttons, visible focus states,
+  tap targets at least 44px.
+- No localStorage or sessionStorage.
+- Any animation as CSS transitions or vanilla `IntersectionObserver`. No libraries.
+- A `prefers-reduced-motion` block that disables animation.
+
+When you are done, show me the full contents of `index.html` and confirm the
+three files exist.
+
+---
+
+## PHASE 2 — send this only after Phase 1 works
+
+The three static files are confirmed working. Now delete everything else from
+this project.
+
+Delete: all `.tsx`, `.ts`, and `.jsx` files, the `src` or `client` folder, any
+`server` or `api` folder, `package.json`, `package-lock.json`, `node_modules`,
+`tsconfig.json`, `vite.config.*`, `tailwind.config.*`, `postcss.config.*`, and
+any other build or dependency config.
+
+Keep only: `index.html`, `styles.css`, `script.js`, the `images/` folder, and
+`.gitignore`.
+
+Do not ask me to confirm each deletion — delete them all. When finished, print
+the complete file tree of the project so I can verify nothing is left.
