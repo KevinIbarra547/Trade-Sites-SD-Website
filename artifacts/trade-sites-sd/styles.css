@@ -248,9 +248,14 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 .footer-contact-link { margin-top: 13px; color: var(--white); }
 .footer-bottom { display: flex; flex-direction: column; gap: 7px; margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line-dark); color: var(--muted-light); font-size: 10px; }
 
-.reveal, .reveal-delay { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
-.reveal-delay { transition-delay: .12s; }
-.reveal.is-visible, .reveal-delay.is-visible { opacity: 1; transform: none; }
+/* Revealed content is visible by default. The hidden starting state exists only
+   once script.js has confirmed it is running (it sets .js-reveal on <html>), so
+   a page with no JavaScript renders fully instead of blank. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-reveal .reveal, .js-reveal .reveal-delay { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+  .js-reveal .reveal-delay { transition-delay: .12s; }
+  .js-reveal .reveal.is-visible, .js-reveal .reveal-delay.is-visible { opacity: 1; transform: none; }
+}
 
 @media (min-width: 620px) {
   .container { width: min(var(--content), calc(100% - 64px)); }
@@ -289,5 +294,4 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .reveal, .reveal-delay { opacity: 1; transform: none; }
 }

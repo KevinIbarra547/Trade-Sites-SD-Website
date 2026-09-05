@@ -1,6 +1,12 @@
 (function () {
   'use strict';
 
+  // First action: opt in to the reveal animation. Without this class the CSS
+  // leaves every .reveal element visible, so no-JS renders the full page.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.documentElement.classList.add('js-reveal');
+  }
+
   var language = 'en';
   var pageTitles = {
     home: 'Home',
