@@ -262,6 +262,49 @@ textarea.input-site { min-height: 112px; resize: vertical; }
   .js-reveal .reveal.is-visible, .js-reveal .reveal-delay.is-visible { opacity: 1; transform: none; }
 }
 
+/* Before / after comparison. Panels never stack: they are stacked layers, clipped
+   at --compare-pos, so the comparison holds at every width. No transitions or
+   keyframes here on purpose - the handle moves only when a person moves it. */
+.compare-section { padding-top: 0; }
+.compare-instruction { margin: 0 auto 18px; max-width: 36ch; text-align: center; color: var(--muted); font-size: 15px; }
+.compare-sr-text { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.compare-frame { --compare-pos: 50%; position: relative; width: min(320px, 100%); aspect-ratio: 5 / 6; margin: 0 auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; box-shadow: 0 18px 40px var(--shadow); }
+.compare-panel { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.compare-before { background: var(--paper); }
+.compare-after { background: var(--white); clip-path: inset(0 0 0 var(--compare-pos)); }
+
+.cmp-bar { margin: 14px 12px 10px; padding: 9px 14px; border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 12px; }
+.cmp-body { flex: 1; padding: 0 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.cmp-card { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px; }
+.cmp-name { display: block; font-weight: 600; font-size: 14px; color: var(--ink); }
+.cmp-phone { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.cmp-ghost { height: 13px; border-radius: 7px; background: var(--surface); }
+.cmp-ghost-short { width: 62%; }
+.cmp-card-plain { background: var(--white); }
+.cmp-card-rich { border-color: var(--transparent); background: var(--navy); }
+.cmp-card-rich .cmp-name { color: var(--white); }
+.cmp-stars { display: block; margin-top: 4px; font-size: 12px; letter-spacing: 3px; color: var(--accent); }
+.cmp-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+.cmp-shot { aspect-ratio: 1; border-radius: 6px; background: linear-gradient(135deg, var(--navy-deep), var(--line-dark)); }
+.cmp-shot:nth-child(2) { background: linear-gradient(200deg, var(--navy-deep), var(--line-dark)); }
+.cmp-shot:nth-child(3) { background: linear-gradient(80deg, var(--navy-deep), var(--line-dark)); }
+.cmp-call { display: block; margin-top: 10px; padding: 9px; border-radius: var(--radius-sm); background: var(--accent); color: var(--white); font-weight: 600; font-size: 13px; text-align: center; }
+
+.compare-tag { position: absolute; bottom: 12px; padding: 5px 11px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.compare-tag-before { left: 12px; background: var(--surface); color: var(--muted); }
+.compare-tag-after { right: 12px; background: var(--accent); color: var(--white); }
+
+/* pan-y lets a vertical swipe that starts on the handle scroll the page:
+   the browser keeps vertical panning and fires pointercancel, which ends the drag. */
+.compare-handle { position: absolute; top: 0; bottom: 0; left: var(--compare-pos); width: 44px; margin-left: -22px; padding: 0; display: flex; align-items: center; justify-content: center; border: 0; background: var(--transparent); touch-action: pan-y; }
+.compare-handle::before { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--white); box-shadow: 0 0 0 1px var(--shadow-strong); }
+.compare-grip { position: relative; width: 34px; height: 34px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent); box-shadow: 0 4px 12px var(--shadow-strong); }
+.compare-grip::before, .compare-grip::after { content: ""; position: absolute; top: 50%; width: 6px; height: 6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+.compare-grip::before { left: 8px; transform: translateY(-50%) rotate(-135deg); }
+.compare-grip::after { right: 8px; transform: translateY(-50%) rotate(45deg); }
+.compare-handle:focus-visible { outline: none; }
+.compare-handle:focus-visible .compare-grip { outline: 3px solid var(--accent); outline-offset: 3px; }
+
 @media (min-width: 620px) {
   .container { width: min(var(--content), calc(100% - 64px)); }
   .stat-grid { grid-template-columns: repeat(3, 1fr); }

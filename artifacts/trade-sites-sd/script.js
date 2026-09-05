@@ -103,3 +103,59 @@
   setLanguage('en');
   observeReveals();
 }());
+
+(function () {
+  'use strict';
+
+  var frame = document.getElementById('compare-frame');
+  var handle = document.getElementById('compare-handle');
+  if (!frame || !handle) return;
+
+  var position = 50;
+  var dragging = false;
+
+  function render() {
+    var rounded = Math.round(position);
+    frame.style.setProperty('--compare-pos', position + '%');
+    handle.setAttribute('aria-valuenow', String(rounded));
+    handle.setAttribute('aria-valuetext', rounded + '% without a website, ' + (100 - rounded) + '% with a Trade Sites SD page');
+  }
+
+  function setPosition(next) {
+    position = Math.min(100, Math.max(0, next));
+    render();
+  }
+
+  function positionFromX(clientX) {
+    var rect = frame.getBoundingClientRect();
+    return rect.width ? ((clientX - rect.left) / rect.width) * 100 : position;
+  }
+
+  function stopDrag() { dragging = false; }
+
+  handle.addEventListener('pointerdown', function (event) {
+    dragging = true;
+    if (handle.setPointerCapture) handle.setPointerCapture(event.pointerId);
+  });
+  window.addEventListener('pointermove', function (event) {
+    if (!dragging) return;
+    event.preventDefault();
+    setPosition(positionFromX(event.clientX));
+  });
+  window.addEventListener('pointerup', stopDrag);
+  window.addEventListener('pointercancel', stopDrag);
+
+  handle.addEventListener('keydown', function (event) {
+    var step = event.shiftKey ? 10 : 2;
+    var next = null;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = position - step;
+    else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = position + step;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = 100;
+    if (next === null) return;
+    event.preventDefault();
+    setPosition(next);
+  });
+
+  render();
+}());
