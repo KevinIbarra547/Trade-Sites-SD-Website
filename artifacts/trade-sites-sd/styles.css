@@ -39,7 +39,6 @@ button { cursor: pointer; }
 
 .svg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 .icon { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
-.mono { font-family: var(--font-mono); }
 .orange-text, .orange-light { color: var(--accent); }
 .text-center { text-align: center; }
 .container { width: min(var(--content), calc(100% - 40px)); margin: 0 auto; }
@@ -54,7 +53,7 @@ button { cursor: pointer; }
 .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--navy); color: var(--white); font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: -.08em; }
 .brand-copy { display: grid; gap: 1px; }
 .brand-type { font-size: 15px; font-weight: 700; letter-spacing: .06em; line-height: 1.1; }
-.brand-sub { color: var(--muted); font-family: var(--font-mono); font-size: 8px; letter-spacing: .13em; line-height: 1.4; }
+.brand-sub { color: var(--muted); font-size: 11px; letter-spacing: .02em; line-height: 1.4; }
 .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-left: auto; }
 .nav-link { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 700; transition: color .2s ease; }
 .nav-link:hover, .nav-link.active { color: var(--navy); }
@@ -75,6 +74,9 @@ button { cursor: pointer; }
 
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 12px 18px; border: 1px solid var(--transparent); border-radius: 10px; font-size: 13px; font-weight: 700; line-height: 1.2; text-decoration: none; transition: transform .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
 .button:hover { transform: translateY(-2px); }
+.button:active { transform: translateY(1px); }
+.button-primary:active { background: var(--accent-dark); box-shadow: 0 3px 10px var(--accent-soft); }
+.button-secondary:active { background: var(--navy); color: var(--white); }
 .button-primary { background: var(--accent); color: var(--navy-deep); box-shadow: 0 6px 16px var(--accent-soft); }
 .button-primary:hover { background: var(--accent-dark); box-shadow: 0 9px 20px var(--accent-soft); }
 .button-secondary { border-color: var(--navy); background: var(--white); color: var(--navy); }
@@ -86,7 +88,7 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .paper-grid { background-color: var(--paper); background-image: linear-gradient(var(--grid-line) 1px, var(--transparent) 1px), linear-gradient(90deg, var(--grid-line) 1px, var(--transparent) 1px); background-size: 26px 26px; }
 .hero-section { overflow: hidden; border-bottom: 1px solid var(--line); padding: 64px 0 70px; }
 .hero-grid { display: grid; align-items: center; gap: 46px; }
-.eyebrow, .section-kicker { margin: 0; color: var(--accent-dark); font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; }
+.eyebrow, .section-kicker { margin: 0; color: var(--accent-dark); font-size: 12px; font-weight: 700; letter-spacing: .02em; line-height: 1.5; }
 .eyebrow::before { display: inline-block; width: 22px; height: 2px; margin: 0 10px 3px 0; background: var(--accent); content: ''; }
 .hero-title { max-width: 690px; margin: 22px 0 0; color: var(--navy); font-size: clamp(2.8rem, 11vw, 5.5rem); font-weight: 700; letter-spacing: -.075em; line-height: .98; }
 .hero-copy { max-width: 580px; margin: 26px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
@@ -136,6 +138,10 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .three-up, .two-up, .four-up { display: grid; gap: 15px; }
 .three-up { margin-top: 36px; }
 .outline-card { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); }
+@media (prefers-reduced-motion: no-preference) {
+  .outline-card { transition: transform .14s ease, border-color .14s ease; }
+  .outline-card:hover, .outline-card:focus-within { transform: translateY(-3px); border-color: var(--muted-light); }
+}
 .feature-grid .outline-card { padding: 22px; }
 .feature-icon { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 11px; background: var(--accent-soft); color: var(--accent-dark); font-size: 19px; }
 .outline-card h3 { margin: 18px 0 0; color: var(--navy); font-size: 16px; line-height: 1.25; }
@@ -240,6 +246,23 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 
 .mobile-action { display: block; position: fixed; right: 14px; bottom: 14px; left: 14px; z-index: 35; }
 .mobile-action .button { width: 100%; box-shadow: 0 9px 25px var(--shadow-strong); }
+
+/* The whole non-interactive motion budget: one hero load sequence, staggered
+   80ms. Both this and the sticky bar are scoped to .js-reveal, which only
+   exists when scripting runs AND the visitor has not asked for reduced motion,
+   so no-JS and reduce both render everything immediately at full opacity. */
+@keyframes hero-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-reveal .hero-title { animation: hero-in .5s ease both; }
+  .js-reveal .hero-copy { animation: hero-in .5s ease .08s both; }
+  .js-reveal .hero-actions { animation: hero-in .5s ease .16s both; }
+
+  /* Sticky bar slides up once when the hero is behind you, then stays put.
+     Transition, not animation, so it cannot re-run on later scrolls. */
+  .js-reveal .mobile-action { transform: translateY(150%); transition: transform .28s ease; }
+  .js-reveal .mobile-action.is-visible { transform: none; }
+}
 .footer { padding: 62px 0 25px; background: var(--navy-deep); color: var(--muted-light); }
 .footer-grid { display: grid; gap: 36px; }
 .footer-brand { display: flex; align-items: center; gap: 10px; color: var(--white); }
