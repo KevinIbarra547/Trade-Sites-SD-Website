@@ -40,7 +40,7 @@
       element.textContent = element.getAttribute('data-' + language);
     });
     if (languageToggle) {
-      languageToggle.textContent = language === 'en' ? 'ES' : 'EN';
+      languageToggle.textContent = language === 'en' ? 'Español' : 'English';
       languageToggle.setAttribute('aria-label', language === 'en' ? 'Ver en español' : 'View in English');
     }
     if (mobileLanguageToggle) {

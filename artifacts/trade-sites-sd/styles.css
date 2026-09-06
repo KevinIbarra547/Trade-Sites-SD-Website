@@ -48,27 +48,27 @@ button { cursor: pointer; }
 .skip-link:focus { transform: translateY(0); }
 
 .site-nav { position: sticky; top: 0; z-index: 40; min-height: var(--nav-height); background: rgba(251, 252, 253, .94); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
-.nav-inner { min-height: var(--nav-height); display: flex; align-items: center; gap: 18px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--navy); text-decoration: none; }
+.nav-inner { min-height: var(--nav-height); display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.brand { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--navy); text-decoration: none; }
 .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--navy); color: var(--white); font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: -.08em; }
 .brand-copy { display: grid; gap: 1px; }
 .brand-type { font-size: 15px; font-weight: 700; letter-spacing: .06em; line-height: 1.1; }
 .brand-sub { color: var(--muted); font-size: 11px; letter-spacing: .02em; line-height: 1.4; }
-.nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-left: auto; }
+.nav-links { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
 .nav-link { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 700; transition: color .2s ease; }
 .nav-link:hover, .nav-link.active { color: var(--navy); }
 .nav-actions { display: none; align-items: center; gap: 10px; margin-left: auto; }
-.language-button { min-width: 44px; min-height: 44px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
-.language-button:hover { border-color: var(--navy); }
+.language-link { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.language-link:hover { border-color: var(--navy); }
 .mobile-menu-button { display: none; place-items: center; width: 44px; height: 44px; margin-left: auto; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-size: 21px; }
 .mobile-menu { display: none; gap: 2px; padding: 14px 20px 20px; border-top: 1px solid var(--line); background: var(--paper); }
 .mobile-menu .nav-link { min-height: 44px; display: flex; align-items: center; padding: 0 8px; border-bottom: 1px solid var(--line); }
-.mobile-menu-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 12px; }
+.mobile-menu-actions { display: grid; grid-template-columns: 1fr; gap: 10px; padding-top: 12px; }
 
 /* Collapsed nav is a JS-only enhancement: script.js sets .js on <html>. Without
    it the links stay a plain visible row, so the nav works with no JavaScript. */
 .js .nav-links { display: none; }
-.js .mobile-menu-button { display: grid; }
+.js .mobile-menu-button { display: grid; margin-left: 0; }
 .js .mobile-menu { display: grid; }
 .js .mobile-menu[hidden] { display: none; }
 
@@ -343,7 +343,9 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 
 @media (min-width: 860px) {
   :root { --nav-height: 74px; }
-  .nav-links, .js .nav-links { display: flex; flex-wrap: nowrap; gap: 26px; }
+  .nav-links, .js .nav-links { flex-basis: auto; display: flex; flex-wrap: nowrap; gap: 26px; margin-left: auto; }
+  .nav-inner { gap: 18px; flex-wrap: nowrap; }
+  .language-link { margin-left: 0; }
   .nav-actions { display: flex; }
   .mobile-menu-button, .js .mobile-menu-button { display: none; }
   .mobile-menu, .js .mobile-menu { display: none !important; }
