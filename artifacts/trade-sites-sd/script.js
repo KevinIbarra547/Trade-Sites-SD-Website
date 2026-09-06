@@ -1,31 +1,16 @@
 (function () {
   'use strict';
 
-  // First action: opt in to the reveal animation. Without this class the CSS
-  // leaves every .reveal element visible, so no-JS renders the full page.
+  // First action: mark that scripting is available. The collapsed nav and the
+  // reveal animation are both scoped to a class, so neither exists without JS.
+  document.documentElement.classList.add('js');
+
+  // Reveal animation additionally respects the motion preference.
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     document.documentElement.classList.add('js-reveal');
   }
 
   var language = 'en';
-  var pageTitles = {
-    home: 'Home',
-    work: 'The work',
-    services: 'Services',
-    process: 'Process',
-    about: 'About Kevin',
-    contact: 'Contact',
-    'not-found': 'Page not found'
-  };
-  var pageDescriptions = {
-    home: 'Affordable hire-me websites for San Diego trade workers. Built by Kevin Ibarra.',
-    work: 'See the first honest build from Trade Sites SD and learn how the portfolio is growing.',
-    services: 'Focused, affordable website services for San Diego trade workers.',
-    process: 'A simple path from first text to a live hire-me website.',
-    about: 'Meet Kevin Ibarra and learn why Trade Sites SD started with his dad.',
-    contact: 'Start a conversation with Kevin about a hire-me website for your trade.',
-    'not-found': 'This Trade Sites SD page could not be found.'
-  };
 
   var mobileMenu = document.getElementById('mobile-menu');
   var menuToggle = document.getElementById('mobile-menu-toggle');
@@ -34,33 +19,6 @@
   var contactForm = document.getElementById('contact-form');
   var formSuccess = document.getElementById('form-success');
   var sendAnother = document.getElementById('send-another');
-  var sectionIds = [
-    'home-hero',
-    'home-stats',
-    'home-point',
-    'home-honest',
-    'home-cta',
-    'work-intro',
-    'work-build',
-    'services-intro',
-    'services-list',
-    'services-note',
-    'process-intro',
-    'process-steps',
-    'process-note',
-    'about-intro',
-    'about-story',
-    'about-approach',
-    'contact-intro',
-    'contact-form-section',
-    'not-found-content'
-  ];
-
-  function getRoute() {
-    var raw = window.location.hash.replace(/^#/, '').replace(/^\//, '').split('?')[0];
-    if (!raw || raw === 'home') return 'home';
-    return Object.prototype.hasOwnProperty.call(pageTitles, raw) ? raw : 'not-found';
-  }
 
   function closeMenu() {
     if (!mobileMenu || !menuToggle) return;
@@ -97,33 +55,8 @@
     }
   }
 
-  function refreshRoute() {
-    var route = getRoute();
-    document.querySelectorAll('.page-view').forEach(function (page) {
-      var active = page.getAttribute('data-page') === route;
-      page.classList.toggle('is-active', active);
-      page.setAttribute('aria-hidden', active ? 'false' : 'true');
-    });
-    document.querySelectorAll('[data-route-link]').forEach(function (link) {
-      var active = link.getAttribute('data-route-link') === route;
-      link.classList.toggle('active', active);
-      if (active) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
-    document.title = (pageTitles[route] || pageTitles['not-found']) + ' · Trade Sites SD';
-    var description = document.querySelector('meta[name="description"]');
-    if (description) description.setAttribute('content', pageDescriptions[route] || pageDescriptions['not-found']);
-    closeMenu();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    window.setTimeout(function () {
-      var firstHeading = document.querySelector('#page-' + route + ' h1');
-      if (firstHeading) firstHeading.setAttribute('tabindex', '-1');
-    }, 0);
-    observeReveals();
-  }
-
   function observeReveals() {
-    var items = document.querySelectorAll('.page-view.is-active .reveal, .page-view.is-active .reveal-delay');
+    var items = document.querySelectorAll('.reveal, .reveal-delay');
     if (!('IntersectionObserver' in window)) {
       items.forEach(function (item) { item.classList.add('is-visible'); });
       return;
@@ -139,12 +72,6 @@
     items.forEach(function (item) { observer.observe(item); });
   }
 
-  function assignSectionIds() {
-    document.querySelectorAll('section').forEach(function (section, index) {
-      if (!section.id) section.id = sectionIds[index] || 'section-' + (index + 1);
-    });
-  }
-
   if (menuToggle) {
     menuToggle.addEventListener('click', function () {
       if (mobileMenu.hidden) openMenu(); else closeMenu();
@@ -152,13 +79,6 @@
   }
   if (languageToggle) languageToggle.addEventListener('click', function () { setLanguage(); });
   if (mobileLanguageToggle) mobileLanguageToggle.addEventListener('click', function () { setLanguage(); });
-  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-    link.addEventListener('click', function () {
-      var target = link.getAttribute('href');
-      if (target && target.length > 1) window.setTimeout(refreshRoute, 0);
-    });
-  });
-  window.addEventListener('hashchange', refreshRoute);
 
   if (contactForm && formSuccess && sendAnother) {
     contactForm.addEventListener('submit', function (event) {
@@ -176,7 +96,10 @@
     });
   }
 
-  assignSectionIds();
+  document.querySelectorAll('.mobile-menu a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
   setLanguage('en');
-  refreshRoute();
+  observeReveals();
 }());
