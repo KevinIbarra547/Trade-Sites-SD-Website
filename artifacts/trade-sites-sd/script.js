@@ -1,14 +1,7 @@
 (function () {
   'use strict';
 
-  // First action: mark that scripting is available. The collapsed nav and the
-  // reveal animation are both scoped to a class, so neither exists without JS.
-  document.documentElement.classList.add('js');
-
-  // Reveal animation additionally respects the motion preference.
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    document.documentElement.classList.add('js-reveal');
-  }
+  // 'js' and 'js-reveal' are set by the inline script in <head>, before first paint.
 
   var language = 'en';
 
@@ -99,6 +92,27 @@
   document.querySelectorAll('.mobile-menu a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', closeMenu);
   });
+
+  // Sticky call bar: reveal once the hero is behind you. Throttled, and the
+  // listener detaches on the first hit so it cannot re-animate while scrolling.
+  var stickyBar = document.querySelector('.mobile-action');
+  var heroSection = document.getElementById('home');
+  if (stickyBar && heroSection) {
+    var pending = false;
+    var checkSticky = function () {
+      pending = false;
+      if (window.pageYOffset < heroSection.offsetHeight * 0.8) return;
+      stickyBar.classList.add('is-visible');
+      window.removeEventListener('scroll', onScroll);
+    };
+    var onScroll = function () {
+      if (pending) return;
+      pending = true;
+      window.setTimeout(checkSticky, 150);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    checkSticky();
+  }
 
   setLanguage('en');
   observeReveals();
