@@ -66,7 +66,6 @@
       if (mobileMenu.hidden) openMenu(); else closeMenu();
     });
   }
-  if (languageToggle) languageToggle.addEventListener('click', function () { setLanguage(); });
 
   if (contactForm && formSuccess && sendAnother) {
     contactForm.addEventListener('submit', function (event) {
@@ -109,7 +108,7 @@
     checkSticky();
   }
 
-  setLanguage('en');
+  setLanguage(document.documentElement.lang === 'es' ? 'es' : 'en');
   observeReveals();
 }());
 
