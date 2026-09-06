@@ -55,16 +55,23 @@ button { cursor: pointer; }
 .brand-copy { display: grid; gap: 1px; }
 .brand-type { font-size: 15px; font-weight: 700; letter-spacing: .06em; line-height: 1.1; }
 .brand-sub { color: var(--muted); font-family: var(--font-mono); font-size: 8px; letter-spacing: .13em; line-height: 1.4; }
-.nav-links { display: none; align-items: center; gap: 26px; margin-left: auto; }
+.nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-left: auto; }
 .nav-link { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 700; transition: color .2s ease; }
 .nav-link:hover, .nav-link.active { color: var(--navy); }
 .nav-actions { display: none; align-items: center; gap: 10px; margin-left: auto; }
 .language-button { min-width: 44px; min-height: 44px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
 .language-button:hover { border-color: var(--navy); }
-.mobile-menu-button { display: grid; place-items: center; width: 44px; height: 44px; margin-left: auto; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-size: 21px; }
-.mobile-menu { display: grid; gap: 2px; padding: 14px 20px 20px; border-top: 1px solid var(--line); background: var(--paper); }
+.mobile-menu-button { display: none; place-items: center; width: 44px; height: 44px; margin-left: auto; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-size: 21px; }
+.mobile-menu { display: none; gap: 2px; padding: 14px 20px 20px; border-top: 1px solid var(--line); background: var(--paper); }
 .mobile-menu .nav-link { min-height: 44px; display: flex; align-items: center; padding: 0 8px; border-bottom: 1px solid var(--line); }
 .mobile-menu-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 12px; }
+
+/* Collapsed nav is a JS-only enhancement: script.js sets .js on <html>. Without
+   it the links stay a plain visible row, so the nav works with no JavaScript. */
+.js .nav-links { display: none; }
+.js .mobile-menu-button { display: grid; }
+.js .mobile-menu { display: grid; }
+.js .mobile-menu[hidden] { display: none; }
 
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 12px 18px; border: 1px solid var(--transparent); border-radius: 10px; font-size: 13px; font-weight: 700; line-height: 1.2; text-decoration: none; transition: transform .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
 .button:hover { transform: translateY(-2px); }
@@ -84,6 +91,7 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .hero-title { max-width: 690px; margin: 22px 0 0; color: var(--navy); font-size: clamp(2.8rem, 11vw, 5.5rem); font-weight: 700; letter-spacing: -.075em; line-height: .98; }
 .hero-copy { max-width: 580px; margin: 26px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.center-actions { justify-content: center; }
 .microcopy { margin: 18px 0 0; color: var(--muted); font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
 
 .phone-card { width: min(100%, 305px); margin: 0 auto; padding: 11px; border-radius: 35px; background: var(--navy-deep); box-shadow: 18px 24px 40px var(--shadow-strong); transform: rotate(2deg); transition: transform .35s ease; }
@@ -270,10 +278,10 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 
 @media (min-width: 860px) {
   :root { --nav-height: 74px; }
-  .nav-links { display: flex; }
+  .nav-links, .js .nav-links { display: flex; flex-wrap: nowrap; gap: 26px; }
   .nav-actions { display: flex; }
-  .mobile-menu-button { display: none; }
-  .mobile-menu { display: none !important; }
+  .mobile-menu-button, .js .mobile-menu-button { display: none; }
+  .mobile-menu, .js .mobile-menu { display: none !important; }
   .hero-section { padding: 108px 0 112px; }
   .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); gap: 70px; }
   .phone-card { margin: 0 auto; }
