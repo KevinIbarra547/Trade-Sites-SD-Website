@@ -74,8 +74,8 @@ button { cursor: pointer; }
 .button-secondary:hover { background: var(--navy); color: var(--white); }
 .button-small { min-height: 42px; padding: 9px 14px; font-size: 12px; }
 
-.page-view { display: none; min-height: 50vh; }
-.page-view.is-active { display: block; }
+/* Anchor targets sit under the sticky header, so offset the scroll landing. */
+section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .paper-grid { background-color: var(--paper); background-image: linear-gradient(var(--grid-line) 1px, var(--transparent) 1px), linear-gradient(90deg, var(--grid-line) 1px, var(--transparent) 1px); background-size: 26px 26px; }
 .hero-section { overflow: hidden; border-bottom: 1px solid var(--line); padding: 64px 0 70px; }
 .hero-grid { display: grid; align-items: center; gap: 46px; }
