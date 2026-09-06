@@ -228,9 +228,6 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .form-heading p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
 .form-card form { display: grid; gap: 15px; margin-top: 26px; }
 .form-card label { display: grid; gap: 7px; color: var(--navy); font-size: 13px; font-weight: 700; }
-.input-site { width: 100%; min-height: 46px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; outline: 0; background: var(--paper); color: var(--ink); }
-.input-site:focus { border-color: var(--navy); box-shadow: 0 0 0 3px var(--accent-soft); }
-textarea.input-site { min-height: 112px; resize: vertical; }
 .form-submit { width: 100%; border: 0; }
 .form-note { margin: 0; color: var(--muted); font-size: 11px; text-align: center; }
 .success-box { margin-top: 24px; padding: 18px; border: 1px solid var(--success-soft); border-radius: var(--radius-md); background: var(--success-soft); color: var(--muted); }
@@ -279,9 +276,8 @@ textarea.input-site { min-height: 112px; resize: vertical; }
    once script.js has confirmed it is running (it sets .js-reveal on <html>), so
    a page with no JavaScript renders fully instead of blank. */
 @media (prefers-reduced-motion: no-preference) {
-  .js-reveal .reveal, .js-reveal .reveal-delay { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
-  .js-reveal .reveal-delay { transition-delay: .12s; }
-  .js-reveal .reveal.is-visible, .js-reveal .reveal-delay.is-visible { opacity: 1; transform: none; }
+  .js-reveal .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+  .js-reveal .reveal.is-visible { opacity: 1; transform: none; }
 }
 
 /* Before / after comparison. Panels never stack: they are stacked layers, clipped

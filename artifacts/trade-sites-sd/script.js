@@ -8,7 +8,6 @@
   var mobileMenu = document.getElementById('mobile-menu');
   var menuToggle = document.getElementById('mobile-menu-toggle');
   var languageToggle = document.getElementById('language-toggle');
-  var mobileLanguageToggle = document.getElementById('mobile-language-toggle');
   var contactForm = document.getElementById('contact-form');
   var formSuccess = document.getElementById('form-success');
   var sendAnother = document.getElementById('send-another');
@@ -43,13 +42,10 @@
       languageToggle.textContent = language === 'en' ? 'Español' : 'English';
       languageToggle.setAttribute('aria-label', language === 'en' ? 'Ver en español' : 'View in English');
     }
-    if (mobileLanguageToggle) {
-      mobileLanguageToggle.textContent = language === 'en' ? 'Ver en español' : 'View in English';
-    }
   }
 
   function observeReveals() {
-    var items = document.querySelectorAll('.reveal, .reveal-delay');
+    var items = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
       items.forEach(function (item) { item.classList.add('is-visible'); });
       return;
@@ -71,7 +67,6 @@
     });
   }
   if (languageToggle) languageToggle.addEventListener('click', function () { setLanguage(); });
-  if (mobileLanguageToggle) mobileLanguageToggle.addEventListener('click', function () { setLanguage(); });
 
   if (contactForm && formSuccess && sendAnother) {
     contactForm.addEventListener('submit', function (event) {
