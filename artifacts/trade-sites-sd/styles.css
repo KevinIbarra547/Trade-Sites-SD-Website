@@ -283,7 +283,7 @@ textarea.input-site { min-height: 112px; resize: vertical; }
 .cmp-card-plain { background: var(--white); }
 .cmp-card-rich { border-color: var(--transparent); background: var(--navy); }
 .cmp-card-rich .cmp-name { color: var(--white); }
-.cmp-stars { display: block; margin-top: 4px; font-size: 12px; letter-spacing: 3px; color: var(--accent); }
+.cmp-trade { display: block; margin-top: 4px; font-size: 12px; color: var(--muted-light); }
 .cmp-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
 .cmp-shot { aspect-ratio: 1; border-radius: 6px; background: linear-gradient(135deg, var(--navy-deep), var(--line-dark)); }
 .cmp-shot:nth-child(2) { background: linear-gradient(200deg, var(--navy-deep), var(--line-dark)); }
