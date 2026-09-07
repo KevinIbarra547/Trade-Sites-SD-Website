@@ -180,6 +180,6 @@ hit that before they hit a number.
 ## 2026-09-04 — Contact details confirmed
 
 Phone: 619-381-0139
-Email: Tradesitessd@gmail.com
+Email: Tradesitesd@gmail.com
 
 These replace all placeholder contact text on the site.

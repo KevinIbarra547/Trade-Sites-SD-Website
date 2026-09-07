@@ -69,7 +69,7 @@ is preserved here so nothing is lost:
 Placeholders replaced with the real details:
 
 - phone `619-381-0139` — `tel:+16193810139`, `sms:+16193810139`
-- email `Tradesitessd@gmail.com` — `mailto:Tradesitessd@gmail.com`
+- email `Tradesitesd@gmail.com` — `mailto:Tradesitesd@gmail.com`
 
 Only the three protocol links in the contact section dial/text/email. Every other
 CTA remains an in-page anchor to `#contact`.

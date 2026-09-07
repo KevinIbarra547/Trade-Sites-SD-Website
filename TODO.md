@@ -24,7 +24,7 @@ Order matters. Each step assumes the one above it landed.
       (this is the rule that blanks the page with JS off — orphaned CSS
       survives refactors if nobody names it)
 - [x] Replace placeholder contact text with 619-381-0139 and
-      Tradesitessd@gmail.com
+      Tradesitesd@gmail.com
 - [x] Leave "Ver en español" untouched
 - [x] Verify: disable JavaScript, reload, page is readable
 - [x] PR + review before merge (big enough diff to earn a second pass)
