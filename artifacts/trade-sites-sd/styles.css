@@ -88,7 +88,7 @@ button { cursor: pointer; }
 .button-primary:hover { background: var(--accent-dark); box-shadow: 0 9px 20px var(--accent-soft); }
 .button-secondary { border-color: var(--navy); background: var(--white); color: var(--navy); }
 .button-secondary:hover { background: var(--navy); color: var(--white); }
-.button-small { min-height: 42px; padding: 9px 14px; font-size: 12px; }
+.button-small { min-height: 44px; padding: 9px 14px; font-size: 12px; }
 
 /* Anchor targets sit under the sticky header, so offset the scroll landing. */
 section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
