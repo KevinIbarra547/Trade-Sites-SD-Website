@@ -57,13 +57,15 @@ button { cursor: pointer; }
 .nav-links { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
 .nav-link { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 700; transition: color .2s ease; }
 .nav-link:hover, .nav-link.active { color: var(--navy); }
-/* Quiet "this one is worth a tap" cue on the How it works link. The
-   active-page indicator is a colour change and every nav link is already
-   700, so the cue sits on a third axis - a dot - and clears out the moment
-   the link is active, leaving the navy active state unopposed. Works the
-   same in the desktop row and the mobile menu, neither of which it
-   collides with. */
-.nav-link-cue:not(.active)::after { display: inline-block; width: 5px; height: 5px; margin-left: 6px; border-radius: 50%; background: var(--accent); vertical-align: middle; content: ''; }
+/* The How it works link carries a standing pill so it outranks its
+   neighbours without becoming a second button. On its own page the pill
+   fills navy, which beats the tinted state decisively - the active
+   indicator still wins. */
+.nav-link-cue { padding: 7px 12px; border: 1px solid var(--accent-soft); border-radius: 999px; background: var(--accent-soft); color: var(--accent-dark); }
+.nav-link-cue:hover { border-color: var(--accent); color: var(--accent-dark); }
+.nav-link.nav-link-cue.active { border-color: var(--navy); background: var(--navy); color: var(--white); }
+.mobile-menu .nav-link-cue { margin: 6px 0; padding: 0 12px; border-bottom: 1px solid var(--accent-soft); border-radius: var(--radius-sm); }
+.mobile-menu .nav-link.nav-link-cue.active { border-color: var(--navy); }
 .nav-actions { display: none; align-items: center; gap: 10px; margin-left: auto; }
 .language-link { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--navy); font-size: 12px; font-weight: 700; white-space: nowrap; text-decoration: none; }
 .language-link:hover { border-color: var(--navy); }
@@ -98,7 +100,7 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .eyebrow, .section-kicker { margin: 0; color: var(--accent-dark); font-size: 12px; font-weight: 700; letter-spacing: .02em; line-height: 1.5; }
 .eyebrow::before { display: inline-block; width: 22px; height: 2px; margin: 0 10px 3px 0; background: var(--accent); content: ''; }
 .hero-title { max-width: 690px; margin: 22px 0 0; color: var(--navy); font-size: clamp(2.8rem, 11vw, 5.5rem); font-weight: 700; letter-spacing: -.075em; line-height: .98; }
-.hero-copy { max-width: 580px; margin: 26px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.hero-copy { max-width: 550px; margin: 26px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .center-actions { justify-content: center; }
 /* Third hero action. Deliberately not a button: the hero already carries a
@@ -141,15 +143,50 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .stat-number { color: var(--accent); font-family: var(--font-mono); font-size: 28px; font-weight: 700; letter-spacing: -.08em; line-height: 1; }
 .stat-label { max-width: 220px; margin: 9px 0 0; color: var(--muted-light); font-size: 12px; line-height: 1.5; }
 
-.section { padding: 76px 0; }
+/* Numeric anchors on light sections. Same type scale as .stat-number /
+   .stat-label above, which is the site's existing figure treatment - the only
+   difference is the ground it sits on. */
+.figure-row { display: grid; gap: 15px; margin-top: 26px; }
+.figure { padding-left: 14px; border-left: 2px solid var(--accent); }
+.figure strong { display: block; color: var(--navy); font-family: var(--font-mono); font-size: 28px; font-weight: 700; letter-spacing: -.08em; line-height: 1; }
+.figure span { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+/* Reviews marquee. The row is a real overflow-x scroller first, so touch swipe
+   and keyboard arrows work whether or not it animates; the animation is a
+   layer on top that only exists when motion is welcome. script.js clones the
+   cards once so translateX(-50%) loops seamlessly, and skips cloning entirely
+   under reduced motion. */
+.reviews-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.review-count { flex: 0 0 auto; margin: 0; color: var(--muted); font-family: var(--font-mono); font-size: 12px; letter-spacing: .02em; }
+.reviews-viewport { margin-top: 26px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.reviews-viewport::-webkit-scrollbar { display: none; }
+.reviews-viewport:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.reviews-track { display: flex; gap: 15px; width: max-content; padding-bottom: 4px; }
+.review-card { display: flex; flex-direction: column; width: 300px; flex: 0 0 auto; padding: 22px; }
+.review-quote { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.7; }
+.review-meta { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.review-meta strong { display: block; color: var(--navy); font-size: 14px; }
+.review-meta span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.review-empty { width: min(84vw, 420px); border-style: dashed; background: var(--surface); }
+.review-empty .review-quote { color: var(--muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .reviews-track.is-marquee { animation: marquee var(--marquee-duration, 60s) linear infinite; }
+  .reviews-viewport:hover .reviews-track.is-marquee,
+  .reviews-viewport:focus-within .reviews-track.is-marquee { animation-play-state: paused; }
+}
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.section { padding: 62px 0; }
 .section-muted { background: var(--surface); }
 .section-heading { max-width: 690px; }
 .section-title { margin: 14px 0 0; color: var(--navy); font-size: clamp(2.1rem, 7vw, 3.8rem); font-weight: 700; letter-spacing: -.065em; line-height: 1.02; }
 .section-title.small-title { font-size: clamp(1.9rem, 5vw, 2.75rem); }
-.section-copy { max-width: 670px; margin: 18px 0 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
-.section-copy.large { max-width: 750px; margin-top: 24px; font-size: 18px; }
+.section-copy { max-width: 520px; margin: 18px 0 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
+.section-copy.large { max-width: 580px; margin-top: 24px; font-size: 18px; }
 .three-up, .two-up, .four-up { display: grid; gap: 15px; }
-.three-up { margin-top: 36px; }
+.three-up { margin-top: 26px; }
 .outline-card { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); }
 @media (prefers-reduced-motion: no-preference) {
   .outline-card { transition: transform .14s ease, border-color .14s ease; }
@@ -164,7 +201,7 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .cta-band { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; padding: 30px; border-radius: var(--radius-lg); background: var(--navy); }
 .cta-band h2, .dark-panel h2, .dark-section h2 { max-width: 690px; margin: 15px 0 0; color: var(--white); font-size: clamp(1.8rem, 5vw, 2.7rem); letter-spacing: -.055em; line-height: 1.05; }
 
-.page-intro { border-bottom: 1px solid var(--line); padding: 64px 0; }
+.page-intro { border-bottom: 1px solid var(--line); padding: 54px 0; }
 .page-title { max-width: 850px; font-size: clamp(2.8rem, 9vw, 5rem); }
 .work-feature-grid, .service-layout, .about-grid, .contact-grid { display: grid; gap: 22px; }
 .placeholder-art { min-height: 245px; display: grid; place-items: center; overflow: hidden; position: relative; background-color: var(--surface); background-image: linear-gradient(var(--grid-line) 1px, var(--transparent) 1px), linear-gradient(90deg, var(--grid-line) 1px, var(--transparent) 1px); background-size: 20px 20px; }
@@ -183,10 +220,10 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .muted, .fine-note { color: var(--muted); font-size: 13px; }
 .body-copy { margin-top: 14px; color: var(--muted); font-size: 14px; line-height: 1.7; }
 .dark-panel { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 28px; border-radius: var(--radius-md); background: var(--navy); color: var(--muted-light); }
-.dark-panel > p:not(.section-kicker) { max-width: 470px; margin: 18px 0 0; font-size: 14px; line-height: 1.75; }
+.dark-panel > p:not(.section-kicker) { max-width: 455px; margin: 18px 0 0; font-size: 14px; line-height: 1.75; }
 .dark-panel .button { margin-top: 34px; }
-.section-heading-space { margin-top: 74px; }
-.empty-grid { margin-top: 28px; }
+.section-heading-space { margin-top: 52px; }
+.empty-grid { margin-top: 22px; }
 .empty-card { min-height: 260px; display: flex; flex-direction: column; justify-content: center; padding: 28px; border-style: dashed; background: var(--surface); }
 .empty-number, .accent-number { color: var(--accent); font-size: 25px; letter-spacing: -.1em; }
 .empty-card h3 { margin-top: 18px; }
@@ -199,13 +236,13 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .price-panel .button { margin-top: 26px; }
 .fine-note { margin: 14px 0 0; line-height: 1.6; }
 .fine-note strong { color: var(--navy); }
-.included-list { display: grid; gap: 13px; padding: 0; margin: 26px 0 0; list-style: none; }
+.included-list { display: grid; gap: 12px; padding: 0; margin: 20px 0 0; list-style: none; }
 .included-list li { display: flex; align-items: flex-start; gap: 10px; color: var(--muted); font-size: 14px; line-height: 1.6; }
 .check { display: grid; place-items: center; width: 20px; height: 20px; flex: 0 0 auto; margin-top: 2px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-dark); }
 .honest-note { display: flex; gap: 12px; margin-top: 28px; padding: 16px; border: 1px solid var(--accent-soft); border-radius: var(--radius-md); background: var(--accent-soft); color: var(--muted); font-size: 13px; line-height: 1.65; }
 .honest-note p { margin: 0; }
 .note-icon { color: var(--accent-dark); font-size: 18px; }
-.input-grid { margin-top: 32px; }
+.input-grid { margin-top: 24px; }
 .input-grid .outline-card { padding: 22px; }
 .input-grid h3 { margin-top: 18px; }
 
@@ -214,13 +251,13 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .step-card h2 { margin: 28px 0 0; color: var(--navy); font-size: 21px; letter-spacing: -.04em; line-height: 1.1; }
 .step-card p { margin-top: 12px; }
 .step-final { border-color: var(--accent); background: var(--accent-soft); }
-.center-note { max-width: 760px; margin: 42px auto 0; }
+.center-note { max-width: 760px; margin: 30px auto 0; }
 .dark-section { background: var(--navy); color: var(--muted-light); }
 .dark-section h2 { margin-top: 15px; }
 .dark-section-grid { display: flex; flex-direction: column; align-items: flex-start; gap: 25px; }
-.dark-section-grid > div > p:not(.section-kicker) { max-width: 620px; margin: 14px 0 0; font-size: 15px; line-height: 1.75; }
+.dark-section-grid > div > p:not(.section-kicker) { max-width: 490px; margin: 14px 0 0; font-size: 15px; line-height: 1.75; }
 
-.about-lead { margin: 0; color: var(--muted); font-size: 19px; line-height: 1.75; }
+.about-lead { max-width: 610px; margin: 0; color: var(--muted); font-size: 19px; line-height: 1.75; }
 .about-facts { margin-top: 30px; }
 .about-facts > div { padding-left: 14px; border-left: 2px solid var(--accent); }
 .about-facts strong { display: block; margin-top: 5px; color: var(--navy); }
@@ -248,6 +285,34 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
 .success-box p:first-child { display: flex; align-items: center; gap: 7px; color: var(--success); }
 .success-box p:nth-child(2) { margin-top: 8px; }
 .success-box .button { margin-top: 14px; }
+
+/* Onboarding pages (start.html / start-es.html). Checklist rows are real
+   inputs so the client can tick things off while gathering them; nothing is
+   stored, the ticks are for one sitting. 44px min-height comes from the row,
+   not the box, so the whole label is the target. */
+.check-list { display: grid; gap: 10px; padding: 0; margin: 26px 0 0; list-style: none; }
+.check-item { display: flex; align-items: flex-start; gap: 12px; min-height: 44px; padding: 11px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); color: var(--ink); font-size: 14px; line-height: 1.6; cursor: pointer; transition: border-color .2s ease; }
+.check-item:hover { border-color: var(--accent); }
+.check-item input { width: 22px; height: 22px; flex: 0 0 auto; margin: 1px 0 0; accent-color: var(--accent); cursor: pointer; }
+.check-item strong { display: block; color: var(--navy); }
+.check-item span small { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
+.check-item:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.check-item:has(input:checked) strong { text-decoration: line-through; }
+
+/* Copy-to-clipboard block for the review request message. */
+.copy-block { margin-top: 26px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); }
+.copy-message { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.75; }
+.copy-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 18px; }
+.copy-status { margin: 0; color: var(--success); font-size: 13px; font-weight: 700; }
+.copy-status[hidden] { display: none; }
+
+/* Numbered photo steps carry a heading and a list, so they need more room
+   inside than .step-card gives. */
+.photo-step { padding: 22px; }
+.photo-step h4 { margin: 14px 0 0; color: var(--navy); font-size: 17px; letter-spacing: -.03em; }
+.photo-step ul { display: grid; gap: 8px; padding: 0; margin: 12px 0 0; list-style: none; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.photo-step li { padding-left: 16px; position: relative; }
+.photo-step li::before { position: absolute; left: 0; color: var(--accent); content: '\2022'; }
 
 .not-found { min-height: 66vh; display: grid; place-items: center; padding: 100px 0; }
 .not-found .hero-title { margin-right: auto; margin-left: auto; }
@@ -361,8 +426,9 @@ section[id] { scroll-margin-top: calc(var(--nav-height) + 12px); }
   .hero-section { padding: 108px 0 112px; }
   .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); gap: 70px; }
   .phone-card { margin: 0 auto; }
-  .section { padding: 110px 0; }
-  .page-intro { padding: 106px 0; }
+  .section { padding: 88px 0; }
+  .page-intro { padding: 84px 0; }
+  .steps-grid { grid-template-columns: repeat(4, 1fr); }
   .work-feature-grid { grid-template-columns: 1.15fr .85fr; }
   .service-layout { grid-template-columns: .78fr 1.22fr; gap: 70px; align-items: start; }
   .about-grid { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 76px; }

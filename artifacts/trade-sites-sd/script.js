@@ -167,3 +167,101 @@
 
   render();
 }());
+
+/* Copy button for the review request message on the onboarding pages. Returns
+   early everywhere else. navigator.clipboard needs a secure context, so it is
+   absent on plain http and in some in-app browsers; the execCommand path
+   covers those, and if both fail the message is selected so the client can
+   copy it by hand rather than being told nothing happened. */
+(function () {
+  'use strict';
+
+  var buttons = document.querySelectorAll('[data-copy-target]');
+  if (!buttons.length) return;
+
+  function legacyCopy(text) {
+    var field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.top = '-1000px';
+    document.body.appendChild(field);
+    field.select();
+    var copied = false;
+    try { copied = document.execCommand('copy'); } catch (error) { copied = false; }
+    document.body.removeChild(field);
+    return copied;
+  }
+
+  function selectText(node) {
+    if (!window.getSelection || !document.createRange) return;
+    var range = document.createRange();
+    range.selectNodeContents(node);
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  buttons.forEach(function (button) {
+    var source = document.getElementById(button.getAttribute('data-copy-target'));
+    var status = document.getElementById(button.getAttribute('data-copy-status'));
+    if (!source || !status) return;
+
+    var resetTimer = null;
+
+    function report(message) {
+      status.textContent = message;
+      status.hidden = false;
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(function () { status.hidden = true; }, 4000);
+    }
+
+    function done() { report(button.getAttribute('data-copied-label')); }
+
+    function fallback() {
+      var text = source.textContent.trim();
+      if (legacyCopy(text)) { done(); return; }
+      selectText(source);
+      report(button.getAttribute('data-manual-label'));
+    }
+
+    button.addEventListener('click', function () {
+      var text = source.textContent.trim();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+        return;
+      }
+      fallback();
+    });
+  });
+}());
+
+/* Reviews marquee. The row already scrolls on its own - overflow-x plus a
+   tabindex on the viewport - so touch and keyboard work with this script
+   absent. All it adds is the seamless loop: clone the cards once so the
+   -50% keyframe lands exactly on the original set. Bails out under reduced
+   motion (no clones, no animation, just a swipe row) and when there is too
+   little content to be worth scrolling. */
+(function () {
+  'use strict';
+
+  var track = document.getElementById('reviews-track');
+  if (!track) return;
+
+  var reduced = window.matchMedia && !window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  if (reduced) return;
+
+  var viewport = track.parentElement;
+  var cards = track.querySelectorAll('.review-card:not(.review-empty)');
+  if (cards.length < 3 || track.scrollWidth <= viewport.clientWidth) return;
+
+  Array.prototype.forEach.call(cards, function (card) {
+    var copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    track.appendChild(copy);
+  });
+
+  // Roughly nine seconds per card, so adding reviews does not speed the row up.
+  track.style.setProperty('--marquee-duration', (cards.length * 9) + 's');
+  track.classList.add('is-marquee');
+}());
