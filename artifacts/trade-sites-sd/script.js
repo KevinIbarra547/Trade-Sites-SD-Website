@@ -235,3 +235,33 @@
     });
   });
 }());
+
+/* Reviews marquee. The row already scrolls on its own - overflow-x plus a
+   tabindex on the viewport - so touch and keyboard work with this script
+   absent. All it adds is the seamless loop: clone the cards once so the
+   -50% keyframe lands exactly on the original set. Bails out under reduced
+   motion (no clones, no animation, just a swipe row) and when there is too
+   little content to be worth scrolling. */
+(function () {
+  'use strict';
+
+  var track = document.getElementById('reviews-track');
+  if (!track) return;
+
+  var reduced = window.matchMedia && !window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  if (reduced) return;
+
+  var viewport = track.parentElement;
+  var cards = track.querySelectorAll('.review-card:not(.review-empty)');
+  if (cards.length < 3 || track.scrollWidth <= viewport.clientWidth) return;
+
+  Array.prototype.forEach.call(cards, function (card) {
+    var copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    track.appendChild(copy);
+  });
+
+  // Roughly nine seconds per card, so adding reviews does not speed the row up.
+  track.style.setProperty('--marquee-duration', (cards.length * 9) + 's');
+  track.classList.add('is-marquee');
+}());
